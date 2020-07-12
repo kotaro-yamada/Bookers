@@ -1,7 +1,8 @@
 <div class="container">
 <div class="row">
+
 <div class="sidebar col-xs-3">
-	<h1>User info</h1>
+	<h2>User info</h2>
   <table class="table table-sm">
     <tr>
       <th><%= attachment_image_tag user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
@@ -17,19 +18,19 @@
       <td><%= user.introduction %></td>
     </tr>
     </table>
+    <div class="row ">
     <% if user.id == current_user.id %>
-	    <%= link_to edit_user_path(user.id), class: "btn btn-sm　btn-outline-dark" do %>
-      <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+	    <%= link_to edit_user_path(user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" do %>
       <% end %>
     <% else %>
-      <%= link_to user_path(current_user.id) do %>
-      <span class="glyphicon glyphicon-wrench" aria-hidden="true" ></span>
+      <%= link_to user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench" do %>
       <% end %>
     <% end %>
+  </div>
 
 
 <div class="New book">
-  <h1>New book</h1>
+  <h2>New book</h2>
   <% if book.errors.any? %>
       <p> error prohibited this book from being saved:</p>
       <ul>
