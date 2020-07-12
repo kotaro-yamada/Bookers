@@ -1,0 +1,56 @@
+<div class="container">
+<div class="row">
+<div class="sidebar col-xs-3">
+	<h1>User info</h1>
+  <table class="table table-sm">
+    <tr>
+      <th><%= attachment_image_tag user, :profile_image, :fill, 60, 60, format: 'jpeg', class: "img-circle pull-left profile-img", fallback: "no_image.jpg" %>
+      </th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><%= user.name %></td>
+    </tr>
+    <tr>
+      <td>introduction</td>
+      <td><%= user.introduction %></td>
+    </tr>
+    </table>
+    <% if user.id == current_user.id %>
+	    <%= link_to edit_user_path(user.id), class: "btn btn-sm　btn-outline-dark" do %>
+      <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+      <% end %>
+    <% else %>
+      <%= link_to user_path(current_user.id) do %>
+      <span class="glyphicon glyphicon-wrench" aria-hidden="true" ></span>
+      <% end %>
+    <% end %>
+
+
+<div class="New book">
+  <h1>New book</h1>
+  <% if book.errors.any? %>
+      <p> error prohibited this book from being saved:</p>
+      <ul>
+        <% book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+  <%= form_for(book) do |f| %>
+    <div class="field row">
+      <p>Title</p>
+        <%= f.text_field :title, class: "form-control" %>
+    </div>
+    <div class="field row">
+        <p>Opinion</p>
+        <%= f.text_area :body,  class: "form-control"%>
+    </div>
+    <div class="actions row">
+    <%= f.submit 'Create Book', class: 'btn btn-primary btn-lg btn-block' %>
+    </div>
+  <% end %>
+</div>
+</div>
