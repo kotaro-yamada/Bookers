@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :users, only: [:show, :edit, :index, :update]
-  resources :books, only: [:index, :show, :create, :edit, :update, :destroy]
+  resources :books, only: [:index, :show, :create, :edit, :update, :destroy] do
+    resource :favorites, only: [:create, :destroy]
+    resources :post_comments, only: [:create, :destroy]
+  end
 end
 
 
@@ -12,7 +15,7 @@ end
 	
 Prefix Verb   URI Pattern                                                                              Controller#Action
                      root GET    /                                                                                        homes#top
-                    about GET    /about(.:format)                                                                         homes#about
+                    about GET    /home/about(.:format)                                                                    homes#about
          new_user_session GET    /users/sign_in(.:format)                                                                 devise/sessions#new
              user_session POST   /users/sign_in(.:format)                                                                 devise/sessions#create
      destroy_user_session DELETE /users/sign_out(.:format)                                                                devise/sessions#destroy
@@ -33,7 +36,12 @@ Prefix Verb   URI Pattern                                                       
                      user GET    /users/:id(.:format)                                                                     users#show
                           PATCH  /users/:id(.:format)                                                                     users#update
                           PUT    /users/:id(.:format)                                                                     users#update
+           book_favorites DELETE /books/:book_id/favorites(.:format)                                                      favorites#destroy
+                          POST   /books/:book_id/favorites(.:format)                                                      favorites#create
+       book_post_comments POST   /books/:book_id/post_comments(.:format)                                                  post_comments#create
+        book_post_comment DELETE /books/:book_id/post_comments/:id(.:format)                                              post_comments#destroy
                     books GET    /books(.:format)                                                                         books#index
+                          POST   /books(.:format)                                                                         books#create
                 edit_book GET    /books/:id/edit(.:format)                                                                books#edit
                      book GET    /books/:id(.:format)                                                                     books#show
                           PATCH  /books/:id(.:format)                                                                     books#update
