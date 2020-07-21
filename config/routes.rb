@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   get 'home/about' => 'homes#about', as:'about'
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :users, only: [:show, :edit, :index, :update]
+  resources :users, only: [:show, :edit, :index, :update] do
+    get 'follows' => 'users#follow_users'
+    get 'followers' => 'users#follower_users'
+  end
+  resources :relationships, only: [:create, :destroy] 
   resources :books, only: [:index, :show, :create, :edit, :update, :destroy] do
     resource :favorites, only: [:create, :destroy]
     resources :post_comments, only: [:create, :destroy]
@@ -12,8 +16,7 @@ end
 
 
 =begin
-	
-Prefix Verb   URI Pattern                                                                              Controller#Action
+	Prefix Verb   URI Pattern                                                                              Controller#Action
                      root GET    /                                                                                        homes#top
                     about GET    /home/about(.:format)                                                                    homes#about
          new_user_session GET    /users/sign_in(.:format)                                                                 devise/sessions#new
@@ -31,11 +34,15 @@ Prefix Verb   URI Pattern                                                       
                           PUT    /users(.:format)                                                                         devise/registrations#update
                           DELETE /users(.:format)                                                                         devise/registrations#destroy
                           POST   /users(.:format)                                                                         devise/registrations#create
+             user_follows GET    /users/:user_id/follows(.:format)                                                        users#follow_users
+           user_followers GET    /users/:user_id/followers(.:format)                                                      users#follower_users
                     users GET    /users(.:format)                                                                         users#index
                 edit_user GET    /users/:id/edit(.:format)                                                                users#edit
                      user GET    /users/:id(.:format)                                                                     users#show
                           PATCH  /users/:id(.:format)                                                                     users#update
                           PUT    /users/:id(.:format)                                                                     users#update
+            relationships POST   /relationships(.:format)                                                                 relationships#create
+             relationship DELETE /relationships/:id(.:format)                                                             relationships#destroy
            book_favorites DELETE /books/:book_id/favorites(.:format)                                                      favorites#destroy
                           POST   /books/:book_id/favorites(.:format)                                                      favorites#create
        book_post_comments POST   /books/:book_id/post_comments(.:format)                                                  post_comments#create
@@ -53,5 +60,6 @@ rails_blob_representation GET    /rails/active_storage/representations/:signed_b
        rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
 update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
      rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+[vagrant@localhost Bookers]$ 
 
 =end
