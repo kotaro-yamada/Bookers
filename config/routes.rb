@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'homes#top'
   get 'home/about' => 'homes#about', as:'about'
+  get 'search' => 'searches#search'
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :users, only: [:show, :edit, :index, :update] do
@@ -19,6 +20,7 @@ end
 	Prefix Verb   URI Pattern                                                                              Controller#Action
                      root GET    /                                                                                        homes#top
                     about GET    /home/about(.:format)                                                                    homes#about
+                   search GET    /search(.:format)                                                                        searches#search
          new_user_session GET    /users/sign_in(.:format)                                                                 devise/sessions#new
              user_session POST   /users/sign_in(.:format)                                                                 devise/sessions#create
      destroy_user_session DELETE /users/sign_out(.:format)                                                                devise/sessions#destroy
